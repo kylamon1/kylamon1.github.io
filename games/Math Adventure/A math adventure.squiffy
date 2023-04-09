@@ -1,0 +1,173 @@
+@title A math adventure
+
+You wake up in a strange room.  The last thing you remember is you were doing math homework then everything gets fuzzy.  As you look around the room you see what appears to be math problems on papers taped or stapled to everything, doors, bookshelves, even the window. There is a small safe on the floor near one wall and even it has math problems taped all over it. What do you want to do?
+
+Go to the [door], examine the [safe], check out the [bookshelf], or go to the [window]?
+
+[mainRoom]:
+@clear
+As you look around the room you see what appears to be math problems on papers taped to everything, doors, bookshelves, even the window. {if window: You already opened the padlock on the window.}{if safe: You unlocked the safe and found a key.}{if doorCode: You solved the bookshelf puzzle and activated the door keypad.}{if door: you unlocked the door.} What do you want to do?
+
+{if door: Go into the [hallway]}{else:Go to the [door]}{if safe:}{else:, examine the [safe]}{if doorCode: }{else:, check out the [bookshelf]}{if window: or go onto the [balcony]}{else: or go to the [window]}?
+
+[door]:
+@clear
+{if doorCode: The door's keypad appears to be lit up.  The buttons make a noise.  You wonder what key code to enter.
+
+Do you want to enter a [code] or go back to the [room](mainRoom)?}{else: The door has a keypad next to it, but no lights are on.  It appears it is not working. Did you want to try to hit some [buttons] or go back to the [room](mainRoom)?}
+
+[buttons]:
+@clear
+Yeah these buttons don't do anything, but it sure was fun.  You go back to the [room](mainRoom) to see what else you can do.
+ 
+[window]:
+@clear
+The window has a padlock keeping it closed.  You must have to answer the questions stapled to the windows frame. Did you want to  try the [padlock] or go back to the [room](mainRoom)?
+
+[balcony]:
+@clear
+You step out the window onto this small balcony.  There is a fence around the gate to keep people from falling to their death{if not lock:, but there is a lock on a section of the gate.{if safe: Did you want to try the key you found in this [lock]?}{else: Unfortunately, you don't have the key needed to open this lock.  Maybe its back in the [room](mainRoom) somewhere.}}{else:.  Did you want to go up to the [[roof]](roof1) or back into the [room](mainRoom)?}
+
+[lock]:
+@clear
+{@lock}
+It looks like the key you picked up from the safe fits perfectly into the lock and turns with a loud snap and the gate swings open. On the other side of the gate is a ladder leading up to the roof.  There is no way to get down from here.  Did you want to take the ladder to the [[roof]](roof1) or head back to the [room](mainRoom)?
+
+[hallway]:
+@clear
+You step out into the hallway quietly.  As you move forward you see you are on the second floor because in front of you is a railing overlooking the 1st floor. You hear voices coming from right under you. To your right is a set of stairs going up and down. You are too scared to go down the stairs. Did you want to climb the stairs to the [[roof]](roof1) or go back into the [room](mainRoom)?
+
+[code]:
+@clear
+To find the correct code for the door you answer the questions surrounding the keypad.  Answer question 4-->3-->7-->2 in that order.
+
+What is the keypad code?<input type="text" id="doorInput" pattern="A-Za-z" maxlength="4" autocomplete="off">   [check](doorCode)
+
+[padlock]:
+@clear
+To find the correct combo for the padlock on the window answer question 8-->1-->9-->6 in that order.
+
+What is the padlock code?
+<input type="text" id="windowInput" pattern="A-Za-z" maxlength="4" autocomplete="off"> [check](windowCode)
+
+[bookshelf]:
+@clear
+You see a bookshelf with many books on it.  Each book has a different letter and they are very disorganized.  You feel like this bookshelf is some code that if you pull out the right books something will happen, but which books should you pull out?
+
+Did you want to pull out some [books] or go back to the [room](mainRoom)?
+
+
+[books]:
+@clear
+Answer questions 11-->10-->15-->14 in order to get the correct books to pull out from the bookshelf.
+<input type="text" id="bookshelfInput" pattern="A-Za-z" maxlength="4" autocomplete="off"> [done](bookshelfCode)
+
+
+[safe]:
+@clear
+The safe is fairly small and the dial on the front has letters, not numbers.  Did you want to try to open the safe by trying the [combination] or go back to the [room](mainRoom)?
+
+[combination]:
+@clear
+Answer questions 16-->13-->12-->14 in order to get the combination to open the safe.
+<input type="text" id="comboInput" pattern="A-Za-z" maxlength="4" autocomplete="off"> [done](comboCode)
+
+
+[windowCode]:
+
+    {squiffy.set("ansW", jQuery("#windowInput").val().toLowerCase());}
+        
+{if ansW=8342:You got it right! The window opens. Did you want to climb out onto the [balcony] or go back to the [room](mainRoom)?{@window}}
+{else:That is not correct.  [Try again](padlock) or go back to the [room](mainRoom)?}
+
+[bookshelfCode]:
+    {squiffy.set("ansB", jQuery("#bookshelfInput").val().toLowerCase());}
+
+{if ansB=pink: The bookshelf slides away from the wall and you see what looks like a light switch hidden here.  Did you want to hit the [switch] or go back to the [room](mainRoom)?} 
+{else:That doesn't seem to be right. Want to [try again?](books) or go back to the [room](mainRoom)?}
+
+[switch]:
+@clear
+When you hit the switch the codepad by the door beeps. It must be working now.{@doorCode}  Did you want to head over to the [door] or back to the [room](mainRoom)?
+
+[comboCode]:
+
+    {squiffy.set("ansC", jQuery("#comboInput").val().toLowerCase());}
+
+{if ansC=tesk:{@safe}You hear a click and the door creaks open. Inside you see a key.{if window: This must be for the balcony gate lock. Did you want to go back onto the [balcony] or back to the [room](mainRoom)?}{else: You wonder what this key is for so you take it. You decide to go back to the [room](mainRoom).}}
+{else:That doesn't seem to be right. Want to [try again?](combination) or go back to the [room](mainRoom)?}
+
+
+[doorCode]:
+    {squiffy.set("ansD", jQuery("#doorInput").val().toLowerCase());}
+
+{if ansD=9185:{@door} When you hit the last digit you hear the lock on the door make a click. You try the handle of the door and it opens into a hallway. Do you want to step into the [hallway] or go back to the [room](mainRoom)?}
+{else:That doesn't seem to be right. Want to [try again?](code) or go back to the [room](mainRoom)?}
+
+
+
+[[roof1]]:
+@clear
+After a short climb you make it to the roof.  The roof is flat and black and hot. You see a fire escape on the far side of the roof.  There are also more math problems taped on various objects. 
+
+Did you want to inspect the [fire escape](fire), the [chimney], or the [electrical box](box)?
+
+[roof]:
+@clear
+The roof is flat and black and hot. You see a fire escape on the far side of the roof.  There are also more math problems taped on various objects. 
+
+Did you want to {if fireOpen:go onto the [lift]}{else:inspect the [fire escape](fire)}{if key:}{else:, go to the [chimney],}{if box:}{else: or the [electrical box](box)}?
+
+[fire]:
+@clear
+{if fire:}{else:Some fool put a gate and lock over the fire escape.}{if key:{@fireOpen} You have a key, lets see if it works in this lock. Thankfully it fits perfectly and unlocks the gate. On the other side of the gate looks like a motorized lift that could take you down to the ground to safety.{if box: The motor is running on the lift.} Do you want to step onto the [lift] or go back to the [roof]?}{else: This lock needs a key.  The other side of the gate looks like a motorized lift that could take you down to the ground and safety.{if box: The motor is running on the lift if only you could get over to it.} You go back to the [roof].}
+{@fire}
+
+[chimney]:
+@clear
+This chimney is too small for you to climb inside, but as you reach your arm inside you feel a rope.  You pull the rope up and attached is a notebook with various math problems. Also attached to the rope further down is a key inside a very study container with a lock on it....another lock.  Maybe the solutions to the math problems will help you get into the container.
+
+Did you want to try to open the [container] or go back to the [roof]?
+
+[box]:
+@clear
+There are various wires that have been pulled loose and are sparking. The top of the electrical box has a set of wires running toward the fire escape. Maybe if you can hook the wires up the right way something good will happen.
+
+Did you want to try to hook the [wires] up or go back to the [roof]?
+
+[container]:
+@clear
+Answer questions 2-->7-->5-->8 in order to get the combination to open the container from the chimney.
+<input type="text" id="jarInput" pattern="A-Za-z" maxlength="4" autocomplete="off">
+[done](jarCode)
+
+[wires]:
+@clear
+Answer questions 12-->11-->17-->16 in order to find the right locations to plut these wires into in the electrical box.
+<input type="text" id="boxInput" pattern="A-Za-z" maxlength="4" autocomplete="off">
+[done](boxCode)
+
+[jarCode]:
+
+    {squiffy.set("ansJ", jQuery("#jarInput").val());}
+
+{if ansJ=5878:{@key} You got the right combo to open the container.  You fetch the key and keep it safe. {if fire:Do you want to go back to the [fire escape](fire) or go back to the [roof]?}{else: You decide to go back to the [roof].}}
+{else:That doesn't seem to be right. Want to [try again](container) or go back to the [roof]?}
+
+[boxCode]:
+
+    {squiffy.set("ansE", jQuery("#boxInput").val().toLowerCase());}
+
+{if ansE=sprt:{@box} This combination of wires made the motorized lift on the other side of the fire escape start to run. {if fireOpen: Do you want to go onto the [lift]}{else:Do you want to go to the [fire escape](fire)} or go back to the [roof]?}
+{else:That doesn't seem to be right. Want to [try again](wires) or go back to the [roof]?}
+
+[lift]:
+{if box: You step on the lift and hit the down button.  The lift lurches down suddenly. You fall much too fast and just before you hit the ground [...] }{else: You step onto the lift, but when you hit the button nothing happens.  Maybe you have to power it on somehow.  You decide to head back over to the [roof].}
+
+[...]:
+@clear
+...you wake up realizing that this whole thing was all just a bad dream. You look at the puddle of drool you left on your math book, and realize you completed all your homework while in the dream.
+
+Thank goodness that's all done!
+
+

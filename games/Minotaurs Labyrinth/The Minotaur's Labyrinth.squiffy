@@ -1,0 +1,406 @@
+@title The Minotaur's Labyrinth
+
+@set ropesRight = 0
+@set ropesWrong = 0
+@set mazeRight = 0
+@set mazeWrong = 0
+@set fightRight = 0
+@set fightWrong = 0
+@set chestRight = 0
+@set chestWrong = 0
+@set hasMap = 0
+@set R1=up
+@set R2=up
+@set R3=down
+@set R4=down
+@set R5=down
+@set R6=up
+@set squares=0
+
+@clear
+     
+    
+
+You wake up in a small dark room.
+=================================
+
+Your memory is a bit fuzzy but you remember that you were on a quest to get the treasure from the legendary Minotaur hidden deep within his labyrinth.  You discovered the entrance was a cave.  As you started to work out how to go farther a low rumbling sound and the sound of loud snorting sent you into a panic.  You ran.  You ran so fast you slipped and cracked your head on the floor. And now [here you are](cell).
+
+
+[restart]:
+@set ropesRight = 0
+@set hasMap = 0
+@set R1=up
+@set R2=up
+@set R3=down
+@set R4=down
+@set R5=down
+@set R6=up
+
+@clear
+Your Room
+=========
+You wake up in a small dark room.  You feel like you have been here before, though nothing seems out of the ordinary.  You get a shock of a memory of being impaled by the spikes from the ceiling and shudder. And now [here you are](cell).
+
+[cell]:
+@clear
+Your Room
+=========
+
+The room you are in is small, like a prison cell with a tall ceiling. It is cold, damp, and dark.  There is a bit of light coming from a candle in your room{if torch2:, but the hallway is dark.}{else: and there is some light you can see through your cell door from a {if torch:torch}{else:[torch]} outside.} {if ropesRight: Your cell door is open because you found the correct combination using the ropes.}{else:Your [cell door] is made of sturdy steel bars.  {if seen cell door:There are [6 ropes](ropes) hanging from the ceiling on the wall near the door.}} {if hasMap:}{else:Next to your bed there is a [box].}
+
+{if deadRope>0: You faintly remember picking up a [paper] from the box in the room from that weird dream you have.  The paper was a map or clue of some sort to get through the maze.}{else:
+{if hasMap:You are carrying a [paper] that has a clue to get out of here.}}
+
+{if maze1: Did you want to go out into the [maze]?}
+
+
+[torch]:
+{@torch}The torch is on the wall across the way from your door.  There is no way you could reach it from here, but maybe if you got out.
+
+[cell door]:
+@clear
+Cell Door
+=========
+{if R1=up:{if R2=down:{if R3=up:{if R4=up:{if R5=down:{if R6=up: {@ropesRight=1}}}}}}}
+{if ropesRight:{@maze1}You push the door and it <b>opens!</b> This must have been the correct positioning for those ropes. Did you want to continue out the door into the [maze] or go back into your [room](cell)?}{else:
+{if ropes: {@ropesWrong+=1} You tug and pull the door, but it doesn't budge.  Maybe you don't have those ropes set in the right position. {if ropesWrong=1:You hear a <u>thunk</u> sound from above you. It is now you notice that the ceiling is a large metal plate with a bunch of equally spaced holes. These holes have 3 foot-steel spikes sticking out of them.  Maybe getting the ropes in the wrong position made the spikes lower. Do you want to go back to the [ropes] or go back to the center of your [room](cell)?}{if ropesWrong=3:  Suddenly the spikes lurch down the whole way to the ground, piercing your body in the process.  You cry out in pain, [then...](restart)}{if ropesWrong=2: The spikes on the ceiling just dropped over 3-feet.  You don't want to know if you get the ropes wrong again.  Do you want to go back to the [ropes] or go back to the center of your [room](cell)?} }
+{else:This door is very strong.  You push {sequence:and pull...:and tug...:and push more but it only wiggles a bit.  As you do this you notice there are <b>6 ropes</b> hanging from the ceiling on the wall near the door. 
+
+Do you go back to check on those [ropes] or go the center of your [room](cell) to look around more.}}}
+
+[box]:
+The box is made of sturdy wood.  Too big to carry, and too strong to break.  On this small box there is a [metal plate] and on the plate is a candle.
+
+[metal plate]:
+You pick up the plate and underneath someone has left a piece of yellowed paper.  Using the candle you look at the [paper].
+
+[paper]:
+{@hasMap = 1}
+The paper reads:
+
+If the maze you want to solve,
+
+These questions you will need.
+
+Solve them in this order,
+
+Go now with great speed.
+
+Then underneath you see the following scribbled:
+
+Q9, Q12, Q8, Q7, Q10, Q11
+
+You put this paper in your pocket as it sounds important.  Do you want to go back to the center of the [room](cell) to look for a way out{if ropesRight:}{else:{if ropes:, go check on those [ropes]}}{if maze1: or go back into the [maze]}?
+
+[ropes]:
+@clear
+{@ropes}
+Ropes
+=====
+There is a series of ropes.  You inspect the ropes and notice that on each rope is a piece of tape with something written on it. They seem like labels.  The first rope has "Q1" on its label, the second rope is labeled "Q4", the third rope is labeled "Q5", The forth rope is labeled "Q2", The fifth rope is labeled "Q3", and the sixth rope is labeled "Q6".  These ropes look like you should pull them up or down in some sort of pattern.
+
+Right now the rope sequence looks like:
+
+The first rope is <b>{R1}</b>
+
+The second rope is <b>{R2}</b>
+
+The third rope is <b>{R3}</b>
+
+The fourth rope is <b>{R4}</b>
+
+The fifth rope is <b>{R5}</b>
+
+The sixth rope is <b>{R6}</b>
+
+Do you want to [modify the ropes](ropeChange), check the [cell door], or go back to the middle of the [room](cell)?
+
+[ropeChange]:
+{@ropesRight=0}
+
+You make the first rope in the <b>{if R1=down:{rotate R1:down:up}}{else:{rotate R1:up:down}}</b> position.
+
+You make the second rope in the <b>{if R2=down:{rotate R2:down:up}}{else:{rotate R2:up:down}}</b> position.
+
+You make the third rope in the <b>{if R3=down:{rotate R3:down:up}}{else:{rotate R3:up:down}}</b> position.
+
+You make the fourth rope in the <b>{if R4=down:{rotate R4:down:up}}{else:{rotate R4:up:down}}</b> position.
+
+You make the fifth rope in the <b>{if R5=down:{rotate R5:down:up}}{else:{rotate R5:up:down}}</b> position.
+
+You make the sixth rope in the <b>{if R6=down:{rotate R6:down:up}}{else:{rotate R6:up:down}}</b> position.
+
+Do you want to check on the [cell door] to see if you got the correct pattern, go back to inspect the [ropes] again, or go back to the center of your [room](cell)?
+
+[maze]:
+@clear
+Outside your Cell
+=================
+{@maze1}
+{if plan:{if hasMap: <b>You wonder about looking at that [paper] again.</b> }{else: <b>You wonder if there is a map to this maze somewhere.</b> }}{else:You are right outside of your room.  You need to find your way through this maze.  }{if torch2: There is no light anywhere.  You may even fall in a pit and die.  You may be able to feel your way through this thing, but you are sure to get turned around unless you have a definite plan.}{else:In every direction you look you just see a few torches scattered on rough stone walls including one [torch](torch2) right across this walkway from your room.  There are gaps and passages in every direction you look Including ladders leading up and down to different levels.  You definitely should get a game plan before you try to go through this maze.}
+
+{if hasMap:You are carrying a [paper] that has a clue to get out of here.}
+Do you want to venture out into the [maze](maze2) or head back into your [room](cell)?
+
+
+[torch2]:
+{@torch2}
+You walk over to the torch and right as you reach to grab it you hear a loud <u><i>HARUMPH</i></u> sound and a blast of wind sweeps down the hallway extinguishing all the torches.  The only light you have now is the small candle in your room sitting on the metal plate by the box.
+
+
+[maze2]:
+What is your game plan for this maze?
+
+At the first intersection you are going to go <b>{rotate M1:left:right:straight:up:down}</b>.
+
+At the second intersection you are going to go <b>{rotate M2:left:right:straight:up:down}</b>.
+
+At the third intersection you are going to go <b>{rotate M3:left:right:straight:up:down}</b>.
+
+At the fourth intersection you are going to go <b>{rotate M4:left:right:straight:up:down}</b>.
+
+At the fifth intersection you are going to go <b>{rotate M5:left:right:straight:up:down}</b>.
+
+At the sixth intersection you are going to go <b>{rotate M6:left:right:straight:up:down}</b>.
+
+Are you ready to carry out your [plan] or do you want to go back into your [room](cell)?
+
+
+
+[plan]:
+@clear
+{@plan}
+{if M1=straight:{if M2=right:{if M3=left:{if M4=down:{if M5=straight:{if M6=up:{@mazeRight=1}}}}}}}{if mazeRight=1: You go <b>straight</b> through the first intersection. You cant see anything but you keep your hands on the walls.  At the next intersection you went <b>right</b>. As you round the corner your foot grazes a large hole, but you keep your balance and continue on. You take the next <b>left</b> and then head <b>down</b> a ramp.  The air is starting to have more of a musty smell.  You head <b>straight</b> through the next intersection.  Ahead of you you can see a ladder with an orange glow coming from the space above.  You climb the ladder into a room lit by many candles.  The air smells of incense and musk. Your plan through the labyrinth worked.  You made it to the [Minotaur's lair](lair).}{else: {@mazeWrong+=1} You head out and go <b>{M1}</b> at the first intersection. All around you can hear wind gust.  Some directions smell better than others.  At the next intersection you head <b>{M2}</b>. You make the next <b>{M3}</b>, <b>{M4}</b> and <b>{M5}</b> quickly. Finally you head <b>{M6}</b> at the next intersection.  You look around and you seem to be right outside your own cell with everything right the way you left it.  Your plan must have been flawed and you got turned around. Lets take another attempt at this [maze].}
+
+
+[lair]:
+@clear
+Minotaur's Lair
+===============
+You look around and see a large oak chest with metal seams holding it together.  As you walk toward the chest you hear the familiar snorting sound from coming from right behind you.  
+
+You turn around you see a huge 8 foot Minotaur stalking toward you.  The beast has large bull hooves, a hairy human-like chest with massive arms, and the head of a bull including horns. The Minotaur takes one massive fist and throws a punch straight for your face.  Your adrenaline kicks in and time seems to slow.  The Minotaur's hand is moving in slow motion toward your face. As you ready yourself to [fight](fight1) your heightened senses see [something weird tattooed](tattoo) on the Minotaur's knuckles.
+
+
+
+
+[fight1]:
+@clear
+{@fight}
+Your years fighting in the gladiator's arena is paying off.  You will use your skills in fighting to plan out this battle so there is no way you can lose. {if tatoo:Do you want to remember what was [tattooed](tattoo) across his fingers?}{else: The sight of that weird [tattoo] on its knuckles is more than a little distracting.}
+
+First you will <b>{rotate F1:block:dodge:duck:strike}</b>....[Are you sure?](fight2)
+
+
+[tattoo]:
+{@tatoo}
+On his knuckles you see tattooed across his fingers "Q13" on the first finger, "Q14” on the second finger, "Q16" on the third finger, and "Q15" on his fourth finger. This may be some clue to beating the Minotaur.{if fight: You shake your head to refocus yourself and get ready to [fight](fight1).}
+
+[fight2]:
+@clear
+{if F1=duck:First you will <b>duck</b> to avoid the fist coming at your head.}
+{if F1=strike:First you will <b>strike</b> the Minotaur in the eye with your fist.}
+{if F1=block:First you will <b>block</b> the Minotaur's next punch with your arms.}
+{if F1=dodge:First you will <b>dodge</b> when the Minotaur charges at you.}
+
+Next you will <b>{rotate F2:block:dodge:duck:strike}</b>.... [Are you sure](fight3)
+
+Or did you want to rethink the fight from the [beginning?](fight1)
+
+[fight3]:
+@clear
+{if F1=duck:First you will <b>duck</b> to avoid the fist coming at your head.}
+{if F1=strike:First you will <b>strike</b> the Minotaur in the eye with your fist.}
+{if F1=block:First you will <b>block</b> the Minotaur's next punch with your arms.}
+{if F1=dodge:First you will <b>dodge</b> when the Minotaur charges at you.}
+
+{if F2=duck:Next you will <b>duck</b> to avoid the fist coming at your head.}
+{if F2=strike:Next you will <b>strike</b> the Minotaur in the eye with your fist.}
+{if F2=block:Next you will <b>block</b> the Minotaur's next punch with your arms.}
+{if F2=dodge:Next you will <b>dodge</b> when the Minotaur charges at you.}
+
+Next you will <b>{rotate F3:block:dodge:duck:strike}</b>.... [Are you sure](fight4)
+
+Or did you want to rethink the fight from the [beginning?](fight1)
+
+[fight4]:
+@clear
+{if F1=duck:First you will <b>duck</b> to avoid the fist coming at your head.}
+{if F1=strike:First you will <b>strike</b> the Minotaur in the eye with your fist.}
+{if F1=block:First you will <b>block</b> the Minotaur's next punch with your arms.}
+{if F1=dodge:First you will <b>dodge</b> when the Minotaur charges at you.}
+
+{if F2=duck:Next you will <b>duck</b> to avoid the fist coming at your head.}
+{if F2=strike:Next you will <b>strike</b> the Minotaur in the eye with your fist.}
+{if F2=block:Next you will <b>block</b> the Minotaur's next punch with your arms.}
+{if F2=dodge:Next you will <b>dodge</b> when the Minotaur charges at you.}
+
+{if F3=duck:Then you will <b>duck</b> to avoid the fist coming at your head.}
+{if F3=strike:Then you will <b>strike</b> the Minotaur in the eye with your fist.}
+{if F3=block:Then you will <b>block</b> the Minotaur's next punch with your arms.}
+{if F3=dodge:Then you will <b>dodge</b> when the Minotaur charges at you.}
+
+Next you will <b>{rotate F4:block:dodge:duck:strike}</b>.... [Are you sure](fight5)
+
+Or did you want to rethink the fight from the [beginning?](fight1)
+
+[fight5]:
+@clear
+{if F1=duck:First you will <b>duck</b> to avoid the fist coming at your head.}
+{if F1=strike:First you will <b>strike</b> the Minotaur in the eye with your fist.}
+{if F1=block:First you will <b>block</b> the Minotaur's next punch with your arms.}
+{if F1=dodge:First you will <b>dodge</b> when the Minotaur charges at you.}
+
+{if F2=duck:Next you will <b>duck</b> to avoid the fist coming at your head.}
+{if F2=strike:Next you will <b>strike</b> the Minotaur in the eye with your fist.}
+{if F2=block:Next you will <b>block</b> the Minotaur's next punch with your arms.}
+{if F2=dodge:next you will <b>dodge</b> when the Minotaur charges at you.}
+
+{if F3=duck:Then you will <b>duck</b> to avoid the fist coming at your head.}
+{if F3=strike:Then you will <b>strike</b> the Minotaur in the eye with your fist.}
+{if F3=block:Then you will <b>block</b> the Minotaur's next punch with your arms.}
+{if F3=dodge:Then you will <b>dodge</b> when the Minotaur charges at you.}
+
+{if F4=duck:Finally you will <b>duck</b> to avoid the fist coming at your head.}
+{if F4=strike:Finally you will <b>strike</b> the Minotaur in the eye with your fist.}
+{if F4=block:Finally you will <b>block</b> the Minotaur's next punch with your arms.}
+{if F4=dodge:Finally you will <b>dodge</b> when the Minotaur charges at you.}
+
+So this is your plan. Are you ready to [fight the Minotaur](fight6) or did you want to rethink the fight from the [beginning?](fight1)
+
+
+[fight6]:
+@clear
+The Fight
+=========
+
+{if F1=duck:{if F2=strike:{if F3=block:{if F4=dodge: {@fightRight=1}}}}}
+{if fightRight=1:You <b>duck</b> under the Minotaur's first strike aimed at your face and follow up with a quick <b>strike</b> hitting it on its left eye.  The Minotaur roars with rage and hurls a nearby candle at you, but you <b>block</b> this candle with your arms. Finally the Minotaur charges at you and you <b>dodge</b> at the last second and it crashes head first into a wall knocking itself out cold.  That was a heck of a plan.
+You decide now is the time to open that [chest].}
+{else:{@fightWrong+=1} As the Minotaur's fist comes at your face you <b>{if F1=strike: attempt to strike back}{else:{F1}}</b>. Then you followed up with a quick <b>{F2}</b>. The Minotaur seems to be getting the upper hand.  When you try your next <b>{F3}</b> it grabs your arm and pulls you in close.  You try one final <b>{F4}</b>, but it is in vain. He pounds his fist on the top of your skull and you black out.  You awake at the base of the ladder leading up to the Minotaur's lair.  He must have thought he killed you and tossed you down here like his trash. Your plan must not have been thought out enough so you weren't able to predict the Minotaur's moves accurately.  You ready yourself and climb back up the ladder into the Minotaur's [lair].}
+
+[chest]:
+@clear
+The Chest
+=========
+
+This chest is much too big to carry out of here, you are going to have to open it to see what treasure lies inside. On top of the chest there are [4 square slots](chestLock).  {if squares>0:{if squares<4:You have some squares, but not enough to fill 4 slots. You decide to [look around] some more to see what else you can find.}{else:You have enough squares, but need to decide which squares go into which slot. 
+
+Do you want to try to [open the chest](chestLock) or [look around] the room for more clues to opening the chest?}}{else:There must be something you put into these slots that open the chest.  You decide to [look around] to see what could work.}
+
+[look around]:
+@clear
+The Minotaur's Lair...again
+===========================
+
+You glance around and see {if paintings:paintings hung on the wall, {if minotaur:}{else:the resting [Minotaur] on the floor,}}{else:[paintings] hung on the wall,} piles of {if plates:plates}{else:[plates]} in one corner, and a large cushion probably used for a {if bed:bed}{else:[bed]}. There is also the [chest] you are trying to open. What do you want to check out?
+
+{if squares>0: You currently have {squares} square tiles.}
+
+[paintings]:
+@clear
+Paintings
+=========
+
+{@paintings}
+These paintings are old.  The paint is chipping off most of them and the rest of it is hard to make out because of the very dim light cast by the candles in this room. You hear the Minotaur grunt and see its leg twitch, reminding you you should hurry before he awakes. Maybe the Minotaur has something on him that might be useful.
+
+Did you want to inspect the [Minotaur], [look around] the room some more or go back to the [chest]?
+
+[Minotaur]:
+@clear
+The Minotaur
+============
+
+{@minotaur}
+{@squares+=4}
+You rummage through the belongings of the Minotaur and in a leather purse tied to his belt there are <b>4 square tiles</b> that appear to be just the right size for the top of that chest. These tiles have the numbers <b> 1, 3, 6, and 8</b> on them.
+
+Did you want to try to open that [chest] or go back and [look around] the room some more?
+
+[plates]:
+@clear
+Pile of Plates
+==============
+
+{@plates}
+The plates are piled high.  Many contain food stuffs and large amounts of mold.  That could be part of the rank smell from this room.
+
+Did you want to [look around] the room some more or go back to the [chest]?
+
+[bed]:
+@clear
+The Big Bed
+===========
+
+{@bed}
+{@squares += 2}
+The bed is large enough for an 8-foot Minotaur, and smells like it has never been washed. You poke it with your foot, but you don't notice anything.  You lift one corner to see what is underneath and you find <b>two square tiles</b> with the numbers 4 and 2 on them.  
+
+Did you want to [look around] the room some more or go back to the [chest]?
+
+
+[chestLock]:
+@clear
+Opening the Chest
+=================
+
+The square slots on the top of the chest are in a line.  Etched into the wood in each of the square slots is more letters and numbers.  In the first slot you see "Q18", in the second slot is etched "Q20", in the third slot is carved "Q17", and in the last slot is carved "Q19".
+
+{if squares=0:You don't have anything to put into these square slots.  You decide to [look around] the room to see what you might find.}
+{if squares=2: You have 2 square tiles that could fit into those slots, but you need at least 4. You decide to [look around] the room to see what you might find.}
+{if squares=4: You have 4 square tiles that could fit into those slots.  You have the tiles with the <b>numbers 1, 3, 6, and 8</b>.  How would you like to place them?
+
+In the first slot you put in the <b>{rotate T1:number 1:number 3:number 6:number 8}</b> tile.
+
+In the second slot you put in the <b>{rotate T2:number 1:number 3:number 6:number 8}</b> tile.
+
+In the third slot you put in the <b>{rotate T3:number 1:number 3:number 6:number 8}</b> tile.
+
+In the fourth slot you put in the <b>{rotate T4:number 1:number 3:number 6:number 8}</b> tile.
+
+You get the feeling there may be more tiles than this. Did you want to [look around] a bit more or check to see if the chest will  [open](chestOpen)...}
+{if squares=6: You have 6 square tiles that could fit into those slots.  You have the tiles with the <b>numbers 1, 2, 3, 4, 6, and 8</b>.  How would you like to place them?
+
+In the first slot you put in the <b>{rotate T1:number 1:number 2:number 3:number 4:number 6:number 8}</b> tile.
+
+In the second slot you put in the <b>{rotate T2:number 1:number 2:number 3:number 4:number 6:number 8}</b> tile.
+
+In the third slot you put in the <b>{rotate T3:number 1:number 2:number 3:number 4:number 6:number 8}</b> tile.
+
+In the fourth slot you put in the <b>{rotate T4:number 1:number 2:number 3:number 4:number 6:number 8}</b> tile.
+
+After placing the tiles you give the lid a [tug](chestOpen)...}
+
+
+[chestOpen]:
+{if T1=number 4:{if T2=number 6:{if T3=number 2:{if T4=number 8:
+...and it <b>OPENS!!</b> Your hard work is really paying off.  You inspect the treasures inside and a single tear of happiness rolls down your cheek. You cram as much of these gold and jewel encrusted items in a sack and head back down the ladder.  Later on you write a [journal] of your time in the Minotaur's labyrinth.}
+{else:{@chestWrong+=1}It does not open.  You must not have all the tiles in the correct places.
+Do you want to go back and inspect the [tiles](chestLock) on the chest lid or [look around] the room for more clues?}}
+{else:{@chestWrong+=1}It does not open.  You must not have all the tiles in the correct places.
+Do you want to go back and inspect the [tiles](chestLock) on the chest lid or [look around] the room for more clues?}}
+{else:{@chestWrong+=1}It does not open.  You must not have all the tiles in the correct places.
+Do you want to go back and inspect the [tiles](chestLock) on the chest lid or [look around] the room for more clues?}}
+{else:{@chestWrong+=1}It does not open.  You must not have all the tiles in the correct places.
+Do you want to go back and inspect the [tiles](chestLock) on the chest lid or [look around] the room for more clues?}
+
+
+[journal]:
+@clear
+Your Journal
+============
+
+Show this to your teacher as proof of besting the beast and stealing his treasure. You may even get another prize!
+---------------------------------------------------------------------------------
+You were able to escape your cell after <b>{@ropesWrong+=1}{ropesWrong} attempt(s)</b> at the ropes.
+
+You found your way through the maze after <b>{@mazeWrong+=1}{mazeWrong} attempt(s).</b>
+
+You bested the beast after <b>{@fightWrong+=1}{fightWrong} attempt(s).</b>
+
+You were able to open the chest of treasure after <b>{@chestWrong+=1}{chestWrong} attempt(s).</b>
+
+Great Job Adventurer!
+=====================
